@@ -14,8 +14,13 @@ module Sonos
         erb :index
       end
 
-      get "/speakers.json" do
+      get "/speakers" do
         jsonify(system.speakers)
+      end
+
+      get "/playlist/:id" do
+        speaker = system.speakers.find { |sp| sp.uid == params[:id] }
+        speaker.queue.to_json
       end
 
       def jsonify(array)
